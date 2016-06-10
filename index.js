@@ -20,7 +20,8 @@ function setDefaultValue(opts) {
             { pattern: /Manager$/, type: 'service' },
             { pattern: /ServiceDelegate$/, type: 'service' },
             { pattern: /Provider$/, type: 'provider', removePattern: true },
-            { pattern: /Directive$/, type: 'directive', removePattern: true, firstLowerCase: true }
+            { pattern: /Directive$/, type: 'directive', removePattern: true, firstLowerCase: true },
+            { pattern: /Component$/, type: 'component', removePattern: true, firstLowerCase: true }
         ];
     }
     if (typeof opts.decoratorPatterns === 'undefined') {
@@ -28,7 +29,8 @@ function setDefaultValue(opts) {
             { pattern: /Controller$/, func: 'Controller', firstLowerCase: false },
             { pattern: /Service$/, func: 'Service' },
             { pattern: /Provider$/, func: 'Provider', removePattern: true },
-            { pattern: /Directive$/, func: 'Directive', removePattern: true, firstLowerCase: true }
+            { pattern: /Directive$/, func: 'Directive', removePattern: true, firstLowerCase: true },
+            { pattern: /Component$/, func: 'Component', removePattern: true, firstLowerCase: true }
         ];
     }
 }
@@ -129,6 +131,9 @@ function addAngularModule(node, decl, opts, ptn) {
     if (type === 'directive') {
         source += createModule();
     }
+    else if (type === 'component') {
+        source += createComponent();
+    }
     else if (type === 'value') {
         source += createModule();
     }
@@ -140,6 +145,12 @@ function addAngularModule(node, decl, opts, ptn) {
     }
     source += '/*</auto_generate>*/';
     node.update(node.source() + source);
+    function createComponent() {
+        var source = '';
+        source += "angular.module('" + moduleName + "')";
+        source += "." + type + "('" + conponentName + "',new " + className + "());";
+        return source;
+    }
     function functionModule() {
         var source = '';
         source += "angular.module('" + moduleName + "')";

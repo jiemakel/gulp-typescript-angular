@@ -45,7 +45,8 @@ function setDefaultValue(opts: Options) {
       { pattern: /Manager$/, type: 'service' },
       { pattern: /ServiceDelegate$/, type: 'service' },
       { pattern: /Provider$/, type: 'provider', removePattern: true },
-      { pattern: /Directive$/, type: 'directive', removePattern: true, firstLowerCase: true }
+      { pattern: /Directive$/, type: 'directive', removePattern: true, firstLowerCase: true },
+      { pattern: /Component$/, type: 'component', removePattern: true, firstLowerCase: true }
     ];
   }
 
@@ -54,7 +55,8 @@ function setDefaultValue(opts: Options) {
       { pattern: /Controller$/, func: 'Controller', firstLowerCase: false },
       { pattern: /Service$/, func: 'Service' },
       { pattern: /Provider$/, func: 'Provider', removePattern: true },
-      { pattern: /Directive$/, func: 'Directive', removePattern: true, firstLowerCase: true }
+      { pattern: /Directive$/, func: 'Directive', removePattern: true, firstLowerCase: true },
+      { pattern: /Component$/, func: 'Component', removePattern: true, firstLowerCase: true }
     ];
   }
 
@@ -215,6 +217,9 @@ function addAngularModule(node:Node, decl:Declaration, opts:Options, ptn:Pattern
   if (type === 'directive') {
     source += createModule();
   }
+  else if (type === 'component') {
+    source += createComponent();
+  }
   else if (type === 'value') {
     source += createModule();
   }
@@ -227,6 +232,13 @@ function addAngularModule(node:Node, decl:Declaration, opts:Options, ptn:Pattern
   source += '/*</auto_generate>*/';
   node.update(node.source() + source);
 
+  function createComponent() {
+    var source = '';
+    source += `angular.module('${moduleName}')`;
+    source += `.${type}('${conponentName}',new ${className}());`;
+    return source;
+  }
+
   function functionModule() {
     var source = '';
     source += `angular.module('${moduleName}')`;
@@ -235,7 +247,7 @@ function addAngularModule(node:Node, decl:Declaration, opts:Options, ptn:Pattern
   }
 
   function createModule() {
-    constructorParams.push(`function(){return new (Function.prototype.bind.apply(${className},[null].concat(Array.prototype.slice.call(arguments))));}`);    
+    constructorParams.push(`function(){return new (Function.prototype.bind.apply(${className},[null].concat(Array.prototype.slice.call(arguments))));}`);
     var source = '';
     source += `angular.module('${moduleName}')`;
     source += `.${type}('${conponentName}',[${constructorParams.join('\,')}]);`;

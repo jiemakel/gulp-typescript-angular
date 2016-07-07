@@ -3,9 +3,9 @@ var sample;
     var SampleComponentController = (function () {
         function SampleComponentController($compile) {
             this.$compile = $compile;
-        }/*<auto_generate>*/SampleComponentController.$inject = ['$compile']; SampleComponentController.$componentName = 'SampleComponentController'/*</auto_generate>*/
+        }
         return SampleComponentController;
-    }());/*<auto_generate>*/angular.module('sample').controller('SampleComponentController',SampleComponentController);/*</auto_generate>*/
+    }());/*<auto_generate>*/angular.module('sample').controller('SampleComponentController',['$compile',function(){return new (Function.prototype.bind.apply(SampleComponentController,[null].concat(arguments)));}]);/*</auto_generate>*/
     var SampleComponent = (function () {
         function SampleComponent() {
             this.templateUrl = '/sample.html';
@@ -13,7 +13,7 @@ var sample;
                 text: '<'
             };
             this.controller = SampleComponentController;
-        }/*<auto_generate>*/SampleComponent.$inject = []; SampleComponent.$componentName = 'sample'/*</auto_generate>*/
+        }
         return SampleComponent;
     }());/*<auto_generate>*/angular.module('sample').component('sample',new SampleComponent());/*</auto_generate>*/
 })(sample || (sample = {}));

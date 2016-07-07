@@ -59,9 +59,9 @@ function transform(contents, opts) {
 }
 function findClassDeclaration(node, opts) {
     var decls, decl;
-    if (node.type === 'VariableDeclaration' &&
+    if ((node.type === 'ClassDeclaration' && (decl = node)) || (node.type === 'VariableDeclaration' &&
         (decls = node.declarations) && decls.length === 1 &&
-        (decl = decls[0]) && decl.init && decl.init.type === 'CallExpression') {
+        (decl = decls[0]) && decl.init && decl.init.type === 'CallExpression')) {
         if (opts.ignore && decl.id.name.match(opts.ignore)) {
             return;
         }
@@ -101,7 +101,7 @@ function addAngularModule(node, decl, opts, ptn) {
     if (typeof firstLowerCase === 'undefined') {
         firstLowerCase = opts.firstLowerCase;
     }
-    var constructor = decl.init.callee.body.body[0].type === 'FunctionDeclaration' ? decl.init.callee.body.body[0] : decl.init.callee.body.body[1];
+    var constructor = (decl.body && decl.body.body) ? (decl.body.body[0].kind === 'constructor' ? decl.body.body[0].value : { params: [] }) : (decl.init.callee.body.body[0].type === 'FunctionDeclaration' ? decl.init.callee.body.body[0] : decl.init.callee.body.body[1]);
     var constructorParams = constructor.params.map(function (param) {
         return '\'' + param.name + '\'';
     });
@@ -113,7 +113,6 @@ function addAngularModule(node, decl, opts, ptn) {
     if (firstLowerCase) {
         conponentName = conponentName.toLowerCase()[0] + conponentName.substring(1);
     }
-    add$inject(decl.init.callee.body, className, conponentName, constructor, constructorParams);
     function add$inject(body, className, componentName, constructor, constructorParams) {
         if (!constructorParams) {
             return;
@@ -125,6 +124,7 @@ function addAngularModule(node, decl, opts, ptn) {
         constructor.update(constructor.source() + source);
     }
     if (opts.decoratorModuleName) {
+        add$inject(decl.init.callee.body, className, conponentName, constructor, constructorParams);
         return;
     }
     var source = '/*<auto_generate>*/';
@@ -132,7 +132,7 @@ function addAngularModule(node, decl, opts, ptn) {
         source += createModule();
     }
     else if (type === 'component') {
-        source += createComponent();
+        source += createModule();
     }
     else if (type === 'value') {
         source += createModule();
@@ -145,20 +145,14 @@ function addAngularModule(node, decl, opts, ptn) {
     }
     source += '/*</auto_generate>*/';
     node.update(node.source() + source);
-    function createComponent() {
+    function createModule() {
         var source = '';
         source += "angular.module('" + moduleName + "')";
         source += "." + type + "('" + conponentName + "',new " + className + "());";
         return source;
     }
     function functionModule() {
-        var source = '';
-        source += "angular.module('" + moduleName + "')";
-        source += "." + type + "('" + conponentName + "'," + className + ");";
-        return source;
-    }
-    function createModule() {
-        constructorParams.push("function(){return new (Function.prototype.bind.apply(" + className + ",[null].concat(Array.prototype.slice.call(arguments))));}");
+        constructorParams.push("function(){return new (Function.prototype.bind.apply(" + className + ",[null].concat(Array.prototype.slice.apply(arguments))));}");
         var source = '';
         source += "angular.module('" + moduleName + "')";
         source += "." + type + "('" + conponentName + "',[" + constructorParams.join('\,') + "]);";

@@ -61,11 +61,8 @@ function findClassDeclaration(node, opts) {
     var decls, decl;
     if ((node.type === 'ClassDeclaration' && (decl = node)) || (node.type === 'VariableDeclaration' &&
         (decls = node.declarations) && decls.length === 1 &&
-        (decl = decls[0]) && decl.init && decl.init.type === 'CallExpression')) {
+        (decl = decls[0]) && decl.init && decl.init.type === 'CallExpression' && decl.init.callee.body)) {
         if (opts.ignore && decl.id.name.match(opts.ignore)) {
-            return;
-        }
-        if (!decl.init.callee.body) {
             return;
         }
         if (opts.decorator) {

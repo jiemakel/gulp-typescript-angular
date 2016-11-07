@@ -9,7 +9,7 @@ var sample;
         function AbstractDirective() {
         }
         return AbstractDirective;
-    }());/*<auto_generate>*/angular.module('sample').directive('abstract',new AbstractDirective());/*</auto_generate>*/
+    }());/*<auto_generate>*/angular.module('sample').directive('abstract',[function(){return new (Function.prototype.bind.apply(AbstractDirective,[null].concat(Array.prototype.slice.apply(arguments))));}]);/*</auto_generate>*/
     var SampleDirective = (function (_super) {
         __extends(SampleDirective, _super);
         function SampleDirective($compile) {
@@ -24,5 +24,5 @@ var sample;
         SampleDirective.prototype.link = function (scope, element, attr) {
         };
         return SampleDirective;
-    }(AbstractDirective));/*<auto_generate>*/angular.module('sample').directive('sample',new SampleDirective());/*</auto_generate>*/
+    }(AbstractDirective));/*<auto_generate>*/angular.module('sample').directive('sample',['$compile',function(){return new (Function.prototype.bind.apply(SampleDirective,[null].concat(Array.prototype.slice.apply(arguments))));}]);/*</auto_generate>*/
 })(sample || (sample = {}));

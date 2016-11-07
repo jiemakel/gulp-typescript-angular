@@ -126,16 +126,16 @@ function addAngularModule(node, decl, opts, ptn) {
     }
     var source = '/*<auto_generate>*/';
     if (type === 'directive') {
-        source += createModule();
+        source += functionModule();
     }
     else if (type === 'component') {
-        source += createModule();
+        source += functionModule();
     }
     else if (type === 'value') {
-        source += createModule();
+        source += functionModule();
     }
     else if (type === 'constant') {
-        source += createModule();
+        source += functionModule();
     }
     else {
         source += functionModule();

@@ -5,7 +5,7 @@ var sample;
             this.$compile = $compile;
         }
         return SampleComponentController;
-    }());/*<auto_generate>*/angular.module('sample').controller('SampleComponentController',['$compile',function(){return new (Function.prototype.bind.apply(SampleComponentController,[null].concat(arguments)));}]);/*</auto_generate>*/
+    }());/*<auto_generate>*/angular.module('sample').controller('SampleComponentController',['$compile',function(){return new (Function.prototype.bind.apply(SampleComponentController,[null].concat(Array.prototype.slice.apply(arguments))));}]);/*</auto_generate>*/
     var SampleComponent = (function () {
         function SampleComponent() {
             this.templateUrl = '/sample.html';
@@ -15,5 +15,5 @@ var sample;
             this.controller = SampleComponentController;
         }
         return SampleComponent;
-    }());/*<auto_generate>*/angular.module('sample').component('sample',new SampleComponent());/*</auto_generate>*/
+    }());/*<auto_generate>*/angular.module('sample').component('sample',[function(){return new (Function.prototype.bind.apply(SampleComponent,[null].concat(Array.prototype.slice.apply(arguments))));}]);/*</auto_generate>*/
 })(sample || (sample = {}));

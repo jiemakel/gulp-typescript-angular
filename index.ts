@@ -216,7 +216,7 @@ function addAngularModule(node:Node, decl:Declaration, opts:Options, ptn:Pattern
     source += functionModule();
   }
   else if (type === 'component') {
-    source += functionModule();
+    source += createModule();
   }
   else if (type === 'value') {
     source += functionModule();
@@ -225,7 +225,7 @@ function addAngularModule(node:Node, decl:Declaration, opts:Options, ptn:Pattern
     source += functionModule();
   }
   else {
-    source += functionModule()
+    source += functionModule();
   }
   source += '/*</auto_generate>*/';
   node.update(node.source() + source);

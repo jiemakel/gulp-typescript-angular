@@ -129,7 +129,7 @@ function addAngularModule(node, decl, opts, ptn) {
         source += functionModule();
     }
     else if (type === 'component') {
-        source += functionModule();
+        source += createModule();
     }
     else if (type === 'value') {
         source += functionModule();

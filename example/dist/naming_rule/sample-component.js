@@ -15,5 +15,5 @@ var sample;
             this.controller = SampleComponentController;
         }
         return SampleComponent;
-    }());/*<auto_generate>*/angular.module('sample').component('sample',[function(){return new (Function.prototype.bind.apply(SampleComponent,[null].concat(Array.prototype.slice.apply(arguments))));}]);/*</auto_generate>*/
+    }());/*<auto_generate>*/angular.module('sample').component('sample',new SampleComponent());/*</auto_generate>*/
 })(sample || (sample = {}));
